@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dayjs from "dayjs";
 
-const loginSchema = yup.object({
+const schema = yup.object({
   body: yup.object({
     email: yup.string().email().required(),
     password: yup.string().min(3).required(),
@@ -17,7 +17,7 @@ export default async (req: Request, res: Response) => {
 
   // throws error when the POST-ed queries are invalide (email and password)
   try {
-    await loginSchema.validate(req);
+    await schema.validate(req);
   } catch (error: any) {
     return res.status(400).send(error.errors);
   }
@@ -28,6 +28,8 @@ export default async (req: Request, res: Response) => {
   } catch (error: any) {
     return res.status(404).send(error);
   }
+
+  if (!user.verified) return res.status(400).send("Not verified");
 
   const match = await bcrypt.compare(req.body.password, user.password);
   //exits if password doesn't match
@@ -55,7 +57,7 @@ export default async (req: Request, res: Response) => {
   const plainUserObject = {
     id: user.id,
     name: user.name,
-    phone: user.phone,
+    citizenshipNumber: user.citizenshipNumber,
     email: user.email,
     admin: user.admin,
   };

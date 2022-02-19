@@ -9,7 +9,7 @@ export class User extends BaseEntity {
   name!: string;
 
   @Column({ unique: true })
-  phone!: string;
+  citizenshipNumber!: string;
 
   @Column({ length: 180, unique: true })
   email!: string;
@@ -19,4 +19,7 @@ export class User extends BaseEntity {
 
   @Column()
   admin!: boolean;
+
+  @Column({ default: false })
+  verified!: boolean;
 }
