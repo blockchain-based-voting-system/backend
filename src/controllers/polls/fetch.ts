@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
+import ElectionContract from "../../web3";
 
 export default async (req: Request, res: Response) => {
-  //   let instance = await Election.deployed();
+  const instance = await ElectionContract.deployed();
+  const title = await instance.getElectionName();
+  console.log({ title });
 
-  //   const name = await instance.getElectionName();
-  const name = "";
-  return res.send("haha  " + name);
+  return res.send("haha  " + title + (await instance.getElectionDescription()));
 };
