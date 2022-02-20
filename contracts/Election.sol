@@ -5,11 +5,13 @@ contract Election {
     mapping(address => bool) admins;
     string name; // name of the election. example: for president
     string description; // description of the election
-    bool running;
+    bool started;
+    bool ended;
 
     constructor() {
         admins[msg.sender] = true;
-        running = false;
+        started = false;
+        ended = false;
     }
 
     modifier onlyAdmin() {
@@ -59,7 +61,8 @@ contract Election {
     {
         name = _name;
         description = _description;
-        running = true;
+        started = true;
+        ended = false;
     }
 
     function getElectionName() public view returns (string memory) {
@@ -86,13 +89,14 @@ contract Election {
     }
     Vote[] votes;
     mapping(uint256 => bool) public voterIds;
+    uint256[] votersArray;
 
     function vote(
         uint256 _voterId,
         string memory _voterName,
         string memory _candidateName
     ) public {
-        require(running == true);
+        require(started == true && ended == false);
         require(candidates[_candidateName].exists, "No such candidate");
         require(!voterIds[_voterId], "Already Voted");
 
@@ -105,6 +109,7 @@ contract Election {
 
         votes.push(newVote);
         voterIds[_voterId] = true;
+        votersArray.push(_voterId);
     }
 
     /*****************************VOTER SECTION*****************************/
@@ -118,10 +123,42 @@ contract Election {
     }
 
     function endElection() public onlyAdmin {
-        running = false;
+        require(started == true && ended == false);
+
+        started = true;
+        ended = true;
     }
 
-    function isElectionRunning() public view returns (bool) {
-        return running;
+    function resetElection() public onlyAdmin {
+        require(started == true && ended == true);
+
+        for (uint32 i = 0; i < candidateNames.length; i++) {
+            delete candidates[candidateNames[i]];
+        }
+
+        for (uint32 i = 0; i < votersArray.length; i++) {
+            delete voterIds[votersArray[i]];
+        }
+
+        name = "";
+        description = "";
+
+        delete votes;
+        delete candidateNames;
+
+        started = false;
+        ended = false;
+    }
+
+    function getStatus() public view returns (string memory) {
+        if (started == true && ended == true) {
+            return "finished";
+        }
+
+        if (started == true && ended == false) {
+            return "running";
+        }
+
+        return "not-started";
     }
 }
