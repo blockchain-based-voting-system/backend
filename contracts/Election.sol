@@ -149,6 +149,7 @@ contract Election {
 
         delete votes;
         delete candidateNames;
+        delete votersArray;
 
         started = false;
         ended = false;
