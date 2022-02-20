@@ -5,13 +5,18 @@ import fetchController from "../controllers/polls/fetch";
 import statusController from "../controllers/polls/status";
 import endController from "../controllers/polls/end";
 import resetController from "../controllers/polls/reset";
+import votesController from "../controllers/polls/votes";
+import voteController from "../controllers/polls/vote";
 
 const router = express.Router();
 
 router.get("/", fetchController);
-router.post("/start", startController);
 router.get("/status", statusController);
+router.get("/votes", votesController);
+
+router.post("/start", startController);
 router.post("/end", endController);
 router.post("/reset", resetController);
+router.post("/vote", voteController);
 
 export default router;

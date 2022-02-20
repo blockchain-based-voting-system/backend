@@ -83,16 +83,16 @@ contract Election {
 
     struct Vote {
         address voterAddress;
-        uint256 voterId;
+        string voterId;
         string voterName;
         string candidate;
     }
     Vote[] votes;
-    mapping(uint256 => bool) public voterIds;
-    uint256[] votersArray;
+    mapping(string => bool) public voterIds;
+    string[] votersArray;
 
     function vote(
-        uint256 _voterId,
+        string memory _voterId,
         string memory _voterName,
         string memory _candidateName
     ) public {
@@ -112,6 +112,10 @@ contract Election {
         votersArray.push(_voterId);
     }
 
+    function getVoters() public view returns (string[] memory) {
+        return votersArray;
+    }
+
     /*****************************VOTER SECTION*****************************/
 
     function getVotes() public view onlyAdmin returns (Vote[] memory) {
@@ -119,7 +123,7 @@ contract Election {
     }
 
     function getTotalVoter() public view returns (uint256) {
-        return votes.length;
+        return votersArray.length;
     }
 
     function endElection() public onlyAdmin {
