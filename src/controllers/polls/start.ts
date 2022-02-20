@@ -30,13 +30,13 @@ export default async (req: Request, res: Response) => {
 
   const accounts = await web3.eth.getAccounts();
 
-  instance.setElectionDetails(req.body.name, req.body.description, {
+  await instance.setElectionDetails(req.body.name, req.body.description, {
     from: accounts[0],
   });
 
   for (let i = 0; i < req.body.candidates.length; i++) {
     const candidate = req.body.candidates[i];
-    instance.addCandidate(candidate.name, candidate.info, {
+    await instance.addCandidate(candidate.name, candidate.info, {
       from: accounts[0],
     });
   }

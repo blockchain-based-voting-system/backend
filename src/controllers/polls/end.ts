@@ -10,7 +10,7 @@ export default async (_: Request, res: Response) => {
 
   if (status !== "running") return res.status(400).send("election not started");
 
-  instance.endElection({ from: accounts[0] });
+  await instance.endElection({ from: accounts[0] });
 
   const votes = await instance.getVotes();
 

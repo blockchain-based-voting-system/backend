@@ -29,7 +29,7 @@ export default async (req: Request, res: Response) => {
   if (!candidates.includes(req.body.candidate))
     return res.status(400).send("no such candidate");
 
-  instance.vote(req.body.id, req.body.name, req.body.candidate, {
+  await instance.vote(req.body.id, req.body.name, req.body.candidate, {
     from: accounts[0],
   });
 
