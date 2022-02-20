@@ -10,3 +10,18 @@
 ```
 npm run typeorm migration:run
 ```
+
+## API End-Points
+
+- /auth/login
+- /auth/check
+- /auth/logout
+- /auth/signup
+- /polls/
+- /polls/start
+- /polls/status
+- /polls/end
+- /polls/reset
+- /users/all
+- /users/verify
+- /users/delete/:id
