@@ -22,6 +22,8 @@ npm run typeorm migration:run
 - /polls/status
 - /polls/end
 - /polls/reset
+- /polls/voters
+- /polls/vote
 - /users/all
 - /users/verify
 - /users/delete/:id
