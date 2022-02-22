@@ -35,7 +35,11 @@ export default async (req: Request, res: Response) => {
   newUser.password = hashedPassword;
   newUser.citizenshipNumber = req.body.citizenshipNumber;
 
-  await User.save(newUser);
+  try {
+    await User.save(newUser);
+  } catch (error) {
+    return res.status(400).send(error);
+  }
 
   return res.send(newUser);
 };
