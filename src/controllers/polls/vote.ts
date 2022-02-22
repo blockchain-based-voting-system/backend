@@ -18,9 +18,11 @@ export const checkVoteability = async (req: Request, res: Response) => {
 
   const instance = await ElectionContract.deployed();
   const voters: Array<any> = await instance.getVoters();
+  const status: "not-started" | "running" | "finished" =
+    await instance.getStatus();
 
+  if (status !== "running") return res.status(400).send("election not running");
   if (voters.includes(req.body.id)) return res.send("already-voted");
-  console.log({ voters, id: req.body.id });
 
   return res.send("not-voted");
 };
