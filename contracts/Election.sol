@@ -14,12 +14,12 @@ contract Election {
         ended = false;
     }
 
-    modifier onlyAdmin() {
-        require(admins[msg.sender] == true, "Only Admin");
-        _;
-    }
+    // modifier onlyAdmin() {
+    //     require(admins[msg.sender] == true, "Only Admin");
+    //     _;
+    // }
 
-    function addAdmin(address _address) public onlyAdmin {
+    function addAdmin(address _address) public {
         admins[_address] = true;
     }
 
@@ -35,7 +35,6 @@ contract Election {
 
     function addCandidate(string memory _candidateName, string memory _info)
         public
-        onlyAdmin
     {
         Candidate memory newCandidate = Candidate({
             name: _candidateName,
@@ -57,7 +56,6 @@ contract Election {
 
     function setElectionDetails(string memory _name, string memory _description)
         public
-        onlyAdmin
     {
         name = _name;
         description = _description;
@@ -118,7 +116,7 @@ contract Election {
 
     /*****************************VOTER SECTION*****************************/
 
-    function getVotes() public view onlyAdmin returns (Vote[] memory) {
+    function getVotes() public view returns (Vote[] memory) {
         return votes;
     }
 
@@ -126,14 +124,14 @@ contract Election {
         return votersArray.length;
     }
 
-    function endElection() public onlyAdmin {
+    function endElection() public {
         require(started == true && ended == false);
 
         started = true;
         ended = true;
     }
 
-    function resetElection() public onlyAdmin {
+    function resetElection() public {
         require(started == true && ended == true);
 
         for (uint32 i = 0; i < candidateNames.length; i++) {
