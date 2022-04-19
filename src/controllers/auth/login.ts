@@ -3,7 +3,7 @@ import * as yup from "yup";
 import { User } from "../../entity/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 
 const schema = yup.object({
   body: yup.object({
@@ -68,9 +68,5 @@ export default async (req: Request, res: Response) => {
     expiresIn: "7d",
   });
 
-  res.cookie("refreshToken", refreshToken, {
-    expires: dayjs().add(7, "days").toDate(),
-  });
-
-  return res.send({ user, accessToken });
+  return res.send({ user, accessToken, refreshToken });
 };

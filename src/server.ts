@@ -15,8 +15,13 @@ app.use("/auth", authRouter);
 app.use("/polls", pollsRouter);
 app.use("/users", usersRouter);
 
+app.post("/test", (req: any, res: any) => {
+  console.log(req.headers.refreshtoken);
+
+  res.send("nice");
+});
+
 app.get("/", (req: Request, res: Response) => {
-  console.log(req.cookies);
   res.status(404).send("no link matched!");
 });
 

@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 
 export default async (req: Request, res: Response) => {
-  const refreshToken = req.cookies.refreshToken;
+  const refreshToken: any = req.headers.refreshtoken;
 
   if (!refreshToken) return res.status(400).send("not authenticated");
 
@@ -42,13 +42,9 @@ export default async (req: Request, res: Response) => {
       expiresIn: "7d",
     });
 
-    res.cookie("refresh", newRefreshToken, {
-      secure: true,
-      httpOnly: true,
-      expires: dayjs().add(7, "days").toDate(),
-    });
-
-    return res.status(200).send({ user: userPlainObj, accessToken });
+    return res
+      .status(200)
+      .send({ user: userPlainObj, accessToken, newRefreshToken });
   } catch (error) {
     return res.status(400).send(error);
   }

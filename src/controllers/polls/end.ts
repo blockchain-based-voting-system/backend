@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import ElectionContract, { web3 } from "../../web3";
-import memoryCache from "memory-cache";
+// import memoryCache from "memory-cache";
 
 export default async (_: Request, res: Response) => {
   const accounts = await web3.eth.getAccounts();
@@ -14,7 +14,7 @@ export default async (_: Request, res: Response) => {
 
   const votes = await instance.getVotes();
 
-  memoryCache.clear();
+  // memoryCache.clear();
 
   return res.send({ votes });
 };

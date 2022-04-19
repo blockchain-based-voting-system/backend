@@ -15,7 +15,7 @@ contract Election {
     }
 
     modifier onlyAdmin() {
-        require(admins[msg.sender] == true, "Only Admin");
+        // require(admins[msg.sender] == true, "Only Admin");
         _;
     }
 
